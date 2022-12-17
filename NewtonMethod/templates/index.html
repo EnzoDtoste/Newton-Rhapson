@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Newton</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  </head>
+  <body>
+    
+    <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+
+                <div id="chart">
+                    <p id="x"></p>
+                    <p id="stop" hidden>False</p>
+                </div>
+
+            </td>
+
+            <td class="align-bottom">
+
+                    <input type="text" class="form-control" placeholder="Function 1" id="function1">
+                
+                    <br/>
+                
+                    <input type="text" class="form-control" placeholder="Function 2" id="function2">
+                
+                    <br/>
+                    <br/>
+                
+                    <button type="button" class="btn btn-secondary" id="but">Enter</button>
+                
+            </td>
+          
+        </tr>
+        </tbody>
+      </table>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
+    
+    <script>
+
+        const button = document.getElementById("but");
+    
+        but.onclick = function click()
+        {
+    
+        but.disabled = true;
+    
+        const chart = document.getElementById("chart");
+        const func1 = document.getElementById("function1");
+        const func2 = document.getElementById("function2");
+        
+        var x = document.getElementById("x");  
+        var stop = document.getElementById("stop");
+
+        url = "load_chart";
+
+        function getchart()
+        {
+
+            $.ajax({
+    
+                url : url,
+                data: {"x": x.innerText, "function1": func1.value, "function2": func2.value},
+                success: function(data) {
+                   chart.innerHTML = data;
+                }
+        
+            });
+
+        }
+
+        async function stuff(){
+    
+        while(true)
+        {
+    
+        await getchart()
+    
+        x = document.getElementById("x");
+        stop = document.getElementById("stop");
+
+        if(stop.innerText == "True")
+        {
+            stop.innerText = "False";
+            break;
+        }
+
+        await new Promise(r => setTimeout(r, 500));
+    
+        }
+    
+        but.disabled = false;
+    
+        }
+    
+        stuff();
+    
+        };
+    
+    </script>
+
+</body>
+</html>
